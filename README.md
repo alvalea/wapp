@@ -11,3 +11,19 @@ Run Karma
 ```
 ./node_modules/karma/bin/karma start web/karma/karma.conf.js --browsers FirefoxHeadless --single-run
 ```
+
+Install ESLint
+```
+npm init
+npm install eslint --save-dev
+```
+
+Setup ESLint
+```
+npx eslint --init
+```
+
+Run ESLint
+```
+npx eslint --fix web/js/*
+```

@@ -1,9 +1,9 @@
 var wsrpc = (function() {
-  function Conn(URL) {
+  function Conn(webSocket) {
     this.id		= 0;
     this.callbacks 	= {};
 
-    this.ws = new WebSocket(URL);
+    this.ws = webSocket;
     const self = this;
     this.ws.onmessage = function(ev) {
       recvResponse(self, ev.data);

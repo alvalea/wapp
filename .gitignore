@@ -1,0 +1,6 @@
+.searchdb
+.tags
+.vimsearchdb
+node_modules/
+package-lock.json
+tests/coverage/

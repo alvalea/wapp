@@ -77,7 +77,7 @@ func main() {
 	wsServer.Register(&service)
 
 	mux := http.NewServeMux()
-	mux.Handle("/", http.FileServer(http.Dir(".")))
+	mux.Handle("/", http.FileServer(http.Dir("web")))
 	mux.Handle("/ws", serveWS(wsServer))
 	http.ListenAndServe(":8080", mux)
 }

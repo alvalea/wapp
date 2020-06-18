@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"fmt"
 	"log"
 	"context"
 	"net/http"
@@ -11,44 +10,24 @@ import (
 	"golang.org/x/net/websocket"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-
+	"github.com/alvalea/wapp/server"
 )
 
-var collection	*mongo.Collection
-
-type Service struct{}
-
-type Args struct {
-        Number	int	`bson:"number"`
-	Text	string	`bson:"text"`
+type mongoDatabase struct {
+	collection *mongo.Collection
 }
 
-type Result struct {
-	Number	int	`bson:"number"`
-	Text	string	`bson:"text"`
-}
-
-func (t *Service) Echo(args *Args, res *Result) error {
-	res.Number = args.Number
-	res.Text = args.Text
-
-	insertResult, err := collection.InsertOne(context.TODO(), args)
+func (m *mongoDatabase) Insert(args *server.Args) error {
+	insertResult, err := m.collection.InsertOne(context.TODO(), args)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Inserted a Single Document: ", insertResult.InsertedID)
+	log.Println("Inserted a Single Document: ", insertResult.InsertedID)
 
 	return err
 }
 
-func serveWS(server *rpc.Server) http.Handler {
-	return websocket.Handler(func(ws *websocket.Conn) {
-		jsonrpcCodec := jsonrpc.NewServerCodec(ws)
-		server.ServeCodec(jsonrpcCodec)
-	})
-}
-
-func dbConnect() {
+func dbConnect() *mongo.Collection{
 	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
@@ -63,18 +42,26 @@ func dbConnect() {
 		log.Fatal(err)
 		os.Exit(1)
 	} else {
-		fmt.Println("Connected to MongoDB!")
+		log.Println("Connected to MongoDB!")
 	}
 
-	collection = client.Database("mydb").Collection("mycollection")
+	return client.Database("mydb").Collection("mycollection")
+}
+
+func serveWS(server *rpc.Server) http.Handler {
+	return websocket.Handler(func(ws *websocket.Conn) {
+		jsonrpcCodec := jsonrpc.NewServerCodec(ws)
+		server.ServeCodec(jsonrpcCodec)
+	})
 }
 
 func main() {
-	dbConnect()
+	collection := dbConnect()
+	mongoDB := &mongoDatabase{collection}
 
-	var service Service
+	service := &server.Service{mongoDB}
 	wsServer := rpc.NewServer()
-	wsServer.Register(&service)
+	wsServer.Register(service)
 
 	mux := http.NewServeMux()
 	mux.Handle("/", http.FileServer(http.Dir("web")))

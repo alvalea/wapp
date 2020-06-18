@@ -1,0 +1,31 @@
+{
+  "name": "wapp",
+  "version": "1.0.0",
+  "description": "Example of a web app implemented in Go using WebSockets and MongoDB",
+  "main": "index.js",
+  "dependencies": {
+    "jasmine-core": "^3.5.0",
+    "karma-coverage": "^2.0.2",
+    "karma-firefox-launcher": "^1.3.0",
+    "karma-jasmine": "^3.3.1",
+    "karma-spec-reporter": "^0.0.32",
+    "karma": "^5.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alvalea/wapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alvalea/wapp/issues"
+  },
+  "homepage": "https://github.com/alvalea/wapp#readme"
+}

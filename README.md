@@ -1,5 +1,6 @@
-![Test](https://github.com/alvalea/wapp/workflows/Test/badge.svg)
-[![codecov](https://codecov.io/gh/alvalea/wapp/branch/master/graph/badge.svg)](https://codecov.io/gh/alvalea/wapp)
+**web** 
+![web testing](https://github.com/alvalea/wapp/workflows/Test/badge.svg)
+[![web coverage](https://codecov.io/gh/alvalea/wapp/branch/master/graph/badge.svg)](https://codecov.io/gh/alvalea/wapp)
 
 # Golang WebSockets MongoDB #
 

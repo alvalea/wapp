@@ -52,12 +52,12 @@ sudo docker run -p 8080:8080 -ti wapp
 Build docker compose
 
 ```
-docker-compose build
+sudo docker-compose build
 ```
 
 Run docker compose
 
 ```
-docker-compose up
+sudo docker-compose up
 ```
 

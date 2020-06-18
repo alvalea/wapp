@@ -10,6 +10,8 @@
 
 Example of a web app implemented in Go using WebSockets and MongoDB
 
+## Web ##
+
 Install karma
 ```
 npm install karma karma-jasmine karma-firefox-launcher karma-coverage karma-spec-reporter jasmine-core --save-dev
@@ -34,4 +36,30 @@ npx eslint --init
 Run ESLint
 ```
 npx eslint --fix web/js/*
+```
+
+## Docker ##
+
+Build docker image
+
+```
+sudo docker build -t wapp .
+```
+
+Run image
+
+```
+sudo docker run -p 8080:8080 -ti wapp
+```
+
+Build docker compose
+
+```
+docker-compose build
+```
+
+Run docker compose
+
+```
+docker-compose up
 ```

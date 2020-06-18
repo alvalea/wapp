@@ -1,10 +1,7 @@
 function MockWS() {
   this.readyState = 1;
+  this.onmessage  = null;
 }
-
-MockWS.prototype.onmessage = function(ev) {
-  console.log('onmessage');
-};
 
 MockWS.prototype.send = function(msg) {
   const s = JSON.parse(msg);

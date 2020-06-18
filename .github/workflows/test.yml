@@ -22,10 +22,10 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install Karma
-      run: npm install karma karma-jasmine karma-chrome-launcher karma-firefox-launcher karma-coverage karma-spec-reporter jasmine-core --save-dev
+      run: npm install karma karma-jasmine karma-firefox-launcher karma-coverage karma-spec-reporter jasmine-core --save-dev
     
     - name: Test
-      run: ./node_modules/karma/bin/karma start tests/karma.conf.js --browsers FirefoxHeadless --single-run
+      run: ./node_modules/karma/bin/karma start web/karma/karma.conf.js --browsers FirefoxHeadless --single-run
 
     - name: Upload Coverage report to CodeCov
       uses: codecov/codecov-action@v1.0.0

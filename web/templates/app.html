@@ -1,0 +1,24 @@
+{{ define "app" }}
+<!DOCTYPE html>
+<html>
+  {{ template "head" . }}
+  <body onload="main()">
+    <p>Test</p>
+    <button onclick="serviceEcho()">Echo</button>
+
+    <!-- Tab links -->
+    <div class="tab">
+      <button class="tablinks" onclick="openTab(event, 'Tab1')" id="defaultOpen">London</button>
+      <button class="tablinks" onclick="openTab(event, 'Tab2')">Paris</button>
+      <button class="tablinks" onclick="openTab(event, 'Tab3')">Tokyo</button>
+    </div>
+
+    {{ template "london" . }}
+
+    {{ template "paris" . }}
+
+    {{ template "tokyo" . }}
+
+  </body>
+</html>
+{{ end }}

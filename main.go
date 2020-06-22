@@ -5,6 +5,7 @@ import (
 	"log"
 	"context"
 	"net/http"
+	"html/template"
 	"net/rpc"
 	"net/rpc/jsonrpc"
 	"golang.org/x/net/websocket"
@@ -55,6 +56,23 @@ func serveWS(server *rpc.Server) http.Handler {
 	})
 }
 
+func compileTemplates() *template.Template {
+	var t *template.Template
+	var err error
+	t, err = template.ParseGlob("web/templates/*")
+	if err != nil {
+		log.Println("Cannot parse templates:", err)
+		os.Exit(1)
+	}
+	return t
+}
+
+func servePage(t *template.Template) func(http.ResponseWriter,*http.Request){
+	return func(w http.ResponseWriter, r *http.Request) {
+		t.ExecuteTemplate(w, "app", nil)
+	}
+}
+
 func main() {
 	collection := dbConnect()
 	mongoDB := &mongoDatabase{collection}
@@ -63,8 +81,11 @@ func main() {
 	wsServer := rpc.NewServer()
 	wsServer.Register(service)
 
+	t := compileTemplates()
+
 	mux := http.NewServeMux()
-	mux.Handle("/", http.FileServer(http.Dir("web")))
 	mux.Handle("/service", serveWS(wsServer))
+	mux.Handle("/", http.FileServer(http.Dir("web")))
+	mux.HandleFunc("/app", servePage(t))
 	http.ListenAndServe(":8080", mux)
 }

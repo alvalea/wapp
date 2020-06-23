@@ -1,6 +1,9 @@
+/**
+ * WebSocket Mock
+ */
 function MockWS() {
   this.readyState = 1;
-  this.onmessage  = null;
+  this.onmessage = null;
 }
 
 MockWS.prototype.send = function(msg) {

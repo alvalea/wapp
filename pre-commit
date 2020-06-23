@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# GO UNIT TESTING (includes static checking with go vet)
+# ------------------------------------------------------
+echo "GO UNIT TESTING"
+echo "---------------"
+go test ./...
+if [[ $? != 0 ]]; then
+  echo "TESTING FAILED"
+  exit 1
+fi
+
+# JS UNIT TESTING
+# ---------------
+echo "JS UNIT TESTING"
+echo "---------------"
+./node_modules/karma/bin/karma start web/karma/karma.conf.js --browsers FirefoxHeadless --single-run
+if [[ $? != 0 ]]; then
+  echo "TESTING FAILED"
+  exit 1
+fi
+
+# GO FORMATTING
+# -------------
+echo "GO FORMATTING"
+echo "-------------"
+unformatted=$(go fmt ./...)
+if [[ -n $unformatted ]]; then
+  echo "FORMATTING FAILED"
+  exit 1
+fi
+
+# JS FORMATTING
+# -------------
+echo "JS FORMATTING"
+echo "-------------"
+STAGED_JS_FILES=$(git diff --cached --name-only -- '*.js')
+echo $STAGED_JS_FILES
+npx eslint --fix $STAGED_JS_FILES
+if [[ $? != 0 ]]; then
+  echo "FORMATTING FAILED"
+  exit 1
+fi
+
+echo "COMMIT SUCCEEDED"
+exit 0

@@ -9,13 +9,13 @@ type Service struct {
 }
 
 type Args struct {
-        Number	int	`bson:"number"`
-	Text	string	`bson:"text"`
+	Number int    `bson:"number"`
+	Text   string `bson:"text"`
 }
 
 type Result struct {
-	Number	int	`bson:"number"`
-	Text	string	`bson:"text"`
+	Number int    `bson:"number"`
+	Text   string `bson:"text"`
 }
 
 func (s *Service) Echo(args *Args, res *Result) error {

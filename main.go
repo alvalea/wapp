@@ -1,17 +1,17 @@
 package main
 
 import (
-	"os"
-	"log"
 	"context"
-	"net/http"
-	"html/template"
-	"net/rpc"
-	"net/rpc/jsonrpc"
-	"golang.org/x/net/websocket"
+	"github.com/alvalea/wapp/server"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"github.com/alvalea/wapp/server"
+	"golang.org/x/net/websocket"
+	"html/template"
+	"log"
+	"net/http"
+	"net/rpc"
+	"net/rpc/jsonrpc"
+	"os"
 )
 
 type mongoDatabase struct {
@@ -28,7 +28,7 @@ func (m *mongoDatabase) Insert(args *server.Args) error {
 	return err
 }
 
-func dbConnect() *mongo.Collection{
+func dbConnect() *mongo.Collection {
 	clientOptions := options.Client().ApplyURI("mongodb://mongo:27017")
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
@@ -67,7 +67,7 @@ func compileTemplates() *template.Template {
 	return t
 }
 
-func servePage(t *template.Template) func(http.ResponseWriter,*http.Request){
+func servePage(t *template.Template) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		t.ExecuteTemplate(w, "app", nil)
 	}

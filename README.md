@@ -61,3 +61,20 @@ Run docker compose
 sudo docker-compose up
 ```
 
+## MongoDB ##
+
+Use mongo as hostname, so that the same code can be run using docker compose
+
+```
+>sudo vi /etc/hosts
+
+127.0.1.1 mongo
+```
+
+Allow external access to mongoDB
+
+```
+>sudo vi /etc/mongodb.conf
+
+bind_ip = 0.0.0.0
+```

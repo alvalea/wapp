@@ -3,5 +3,4 @@
 .vimsearchdb
 node_modules/
 package-lock.json
-tests/coverage/
 web/karma/coverage

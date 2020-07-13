@@ -1,39 +1,53 @@
-var service     = new WebSocket("ws://localhost:8080/service");
-var serviceConn = new wsrpc.Conn(service);
+let service = null;
+let serviceConn = null;
 
+/**
+ * serviceEcho
+ */
 function serviceEcho() {
-    args = {
-        Number  : 11,
-        Text    : "hello"
-    };
+  args = {
+    Number: 11,
+    Text: 'hello',
+  };
 
-    msg = {
-        method: "Service.Echo",
-        params: [args],
-    };
+  msg = {
+    method: 'Service.Echo',
+    params: [args],
+  };
 
-    serviceConn.send(msg, function (response) {
-        console.log(response.result);
-    });
+  serviceConn.send(msg, function(response) {
+    console.log(response.result);
+  });
 }
 
+/**
+ * openTab
+ * @param {Event} evt
+ * @param {String} tabName
+ */
 function openTab(evt, tabName) {
-  var i, tabcontent, tablinks;
+  let i;
 
-  tabcontent = document.getElementsByClassName("tabcontent");
+  const tabcontent = document.getElementsByClassName('tabcontent');
   for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
 
-  tablinks = document.getElementsByClassName("tablinks");
+  const tablinks = document.getElementsByClassName('tablinks');
   for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
+    tablinks[i].className = tablinks[i].className.replace(' active', '');
   }
 
-  document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.className += " active";
+  document.getElementById(tabName).style.display = 'block';
+  evt.currentTarget.className += ' active';
 }
 
+/**
+ * main
+ */
 function main() {
-  document.getElementById("defaultOpen").click();
+  document.getElementById('defaultOpen').click();
+
+  service = new WebSocket('ws://localhost:8080/service');
+  serviceConn = new wsrpc.Conn(service);
 }

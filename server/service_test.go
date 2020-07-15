@@ -7,7 +7,8 @@ import (
 type mockDatabase struct {
 }
 
-func (m *mockDatabase) Insert(args *Args) error {
+func (m *mockDatabase) Find(args *Args, res *Result) error {
+	res.Page = args.Page
 	return nil
 }
 
@@ -16,21 +17,16 @@ func TestDatabaseInsert(t *testing.T) {
 
 	service := &Service{mockDB}
 
-	args := &Args{11, "hello"}
+	args := &Args{1, 5}
 	res := &Result{}
 
-	err := service.Echo(args, res)
+	err := service.Find(args, res)
 	if err != nil {
-		t.Fatal("Error calling service.Echo")
+		t.Fatal("Error calling service.Find")
 	}
 
-	if res.Number != args.Number {
-		t.Errorf("res.Number:%d != args.Number:%d",
-			res.Number, args.Number)
-	}
-
-	if res.Text != args.Text {
-		t.Errorf("res.Text:%s != args.Text:%s",
-			res.Text, args.Text)
+	if res.Page != args.Page {
+		t.Errorf("res.Page:%d != args.Page:%d",
+			res.Page, args.Page)
 	}
 }

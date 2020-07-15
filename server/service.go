@@ -1,26 +1,34 @@
 package server
 
 type Database interface {
-	Insert(*Args) error
+	Find(*Args, *Result) error
 }
 
 type Service struct {
 	DB Database
 }
 
+type Score struct {
+	Score float64 `bson:"score"`
+	Type  string  `bson:"type"`
+}
+
+type Student struct {
+	Name   string  `bson:"name"`
+	Scores []Score `bson:"scores"`
+}
+
 type Args struct {
-	Number int    `bson:"number"`
-	Text   string `bson:"text"`
+	Page     int
+	PageSize int
 }
 
 type Result struct {
-	Number int    `bson:"number"`
-	Text   string `bson:"text"`
+	Page     int
+	Students []Student
 }
 
-func (s *Service) Echo(args *Args, res *Result) error {
-	res.Number = args.Number
-	res.Text = args.Text
-
-	return s.DB.Insert(args)
+func (s *Service) Find(args *Args, res *Result) error {
+	res.Page = args.Page
+	return s.DB.Find(args, res)
 }

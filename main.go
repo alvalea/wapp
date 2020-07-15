@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/alvalea/wapp/server"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/net/websocket"
@@ -18,12 +19,24 @@ type mongoDatabase struct {
 	collection *mongo.Collection
 }
 
-func (m *mongoDatabase) Insert(args *server.Args) error {
-	insertResult, err := m.collection.InsertOne(context.TODO(), args)
+func (m *mongoDatabase) Find(args *server.Args, res *server.Result) error {
+	skip := int64(0)
+	if args.Page > 0 {
+		skip = int64((args.Page - 1) * args.PageSize)
+	}
+	limit := int64(args.PageSize)
+
+	opts := options.FindOptions{
+		Skip:  &skip,
+		Limit: &limit,
+	}
+	cursor, err := m.collection.Find(context.TODO(), bson.M{}, &opts)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Inserted a Single Document: ", insertResult.InsertedID)
+	if err = cursor.All(context.TODO(), &res.Students); err != nil {
+		log.Fatal(err)
+	}
 
 	return err
 }
@@ -46,7 +59,7 @@ func dbConnect() *mongo.Collection {
 		log.Println("Connected to MongoDB!")
 	}
 
-	return client.Database("mydb").Collection("mycollection")
+	return client.Database("sample_school").Collection("students")
 }
 
 func serveWS(server *rpc.Server) http.Handler {

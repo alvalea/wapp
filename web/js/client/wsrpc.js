@@ -1,7 +1,11 @@
-var wsrpc = (function() {
+const wsrpc = (function() {
+  /**
+   * Conn
+   * @param {WebSocket} webSocket
+   */
   function Conn(webSocket) {
-    this.id		= 0;
-    this.callbacks 	= {};
+    this.id = 0;
+    this.callbacks = {};
 
     this.ws = webSocket;
     const self = this;
@@ -23,6 +27,12 @@ var wsrpc = (function() {
     }
   };
 
+  /**
+   * sendRequest
+   * @param {Connection} conn
+   * @param {Message} msg
+   * @param {Callback} cb
+   */
   function sendRequest(conn, msg, cb) {
     id = conn.id++;
 
@@ -35,6 +45,11 @@ var wsrpc = (function() {
     conn.ws.send(JSON.stringify(request));
   }
 
+  /**
+   * recvResponse
+   * @param {Connection} conn
+   * @param {Data} data
+   */
   function recvResponse(conn, data) {
     const response = JSON.parse(data);
     if (conn.callbacks.hasOwnProperty(response.id)) {

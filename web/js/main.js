@@ -1,29 +1,47 @@
 let service = null;
 let serviceConn = null;
 
-/**
- * serviceEcho
- */
-function serviceEcho() {
-  args = {
-    Number: 11,
-    Text: 'hello',
-  };
+let page = 1;
+const pageSize = 5;
 
+/**
+ * serviceFind
+ * @param {number} arg
+ */
+function serviceFind(arg) {
+  page = page + arg;
+  if (page == 0) {
+    page = 1;
+  }
+
+  if (page == 1) {
+    disable(document.getElementById('prev'));
+  } else {
+    enable(document.getElementById('prev'));
+  }
+
+  args = {Page: page, PageSize: pageSize};
   msg = {
-    method: 'Service.Echo',
+    method: 'Service.Find',
     params: [args],
   };
 
   serviceConn.send(msg, function(response) {
-    console.log(response.result);
+    document.getElementById('students').innerText =
+          JSON.stringify(response.result);
+
+    if (response.result.Students == null) {
+      disable(document.getElementById('next'));
+    } else {
+      enable(document.getElementById('next'));
+    }
   });
 }
 
 /**
  * openTab
- * @param {Event} evt
- * @param {String} tabName
+ * @param {event} evt
+ * @param {string} tabName
  */
 function openTab(evt, tabName) {
   let i;
@@ -43,11 +61,47 @@ function openTab(evt, tabName) {
 }
 
 /**
+ * showDefaultTab
+ */
+function showDefaultTab() {
+  document.getElementById('defaultOpen').click();
+}
+
+/**
+ * connectToService
+ */
+function connectToService() {
+  service = new WebSocket('ws://localhost:8080/service');
+  serviceConn = new wsrpc.Conn(service);
+}
+
+/**
+ * disable
+ * @param {anchor} button
+ */
+function disable(button) {
+  button.style.pointerEvents='none';
+  button.style.cursor='default';
+  button.className='inactive';
+}
+
+/**
+ * enable
+ * @param {anchor} button
+ */
+function enable(button) {
+  button.style.pointerEvents='auto';
+  button.style.cursor='pointer';
+  button.className='';
+}
+
+/**
  * main
  */
 function main() {
-  document.getElementById('defaultOpen').click();
+  showDefaultTab();
 
-  service = new WebSocket('ws://localhost:8080/service');
-  serviceConn = new wsrpc.Conn(service);
+  connectToService();
+
+  disable(document.getElementById('prev'));
 }

@@ -11,5 +11,7 @@ module.exports = {
   },
   'rules': {
     'no-unused-vars': 'off',
+    'brace-style': 'off',
+    'guard-for-in': 'off',
   },
 };

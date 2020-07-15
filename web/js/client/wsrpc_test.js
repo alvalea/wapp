@@ -24,13 +24,9 @@ describe('Test connection', function() {
   const mockWS = new MockWS();
   const conn = new wsrpc.Conn(mockWS);
 
-  args = {
-    Number: 11,
-    Text: 'hello',
-  };
-
+  args = {Page: 1, PageSize: 5};
   msg = {
-    method: 'Service.Echo',
+    method: 'Service.Find',
     params: [args],
   };
 
@@ -38,8 +34,7 @@ describe('Test connection', function() {
     conn.send(msg, function(response) {
       const result = JSON.parse(response.result);
 
-      expect(result.Number).toEqual(args.Number);
-      expect(result.Text).toEqual(args.Text);
+      expect(result.Page).toEqual(args.Page);
     });
   });
 });

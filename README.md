@@ -78,3 +78,9 @@ Allow external access to mongoDB
 
 bind_ip = 0.0.0.0
 ```
+
+Import sample data
+
+```
+mongoimport --drop -c students --uri mongodb://mongo/sample_school students.json
+```

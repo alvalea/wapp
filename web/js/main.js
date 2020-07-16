@@ -27,7 +27,7 @@ function serviceFind(arg) {
   };
 
   serviceConn.send(msg, function(response) {
-    document.getElementById('students').innerText =
+    document.getElementById('result').innerText =
           JSON.stringify(response.result);
 
     if (response.result.Students == null) {
@@ -36,6 +36,29 @@ function serviceFind(arg) {
       enable(document.getElementById('next'));
     }
   });
+}
+
+/**
+ * serviceSearch
+ */
+function serviceSearch() {
+  var input  = document.getElementById("searchInput");
+  var filter = input.value.toUpperCase();
+  var div    = document.getElementById("searchDropdown");
+  a = div.getElementsByTagName("a");
+  for (i = 0; i < a.length; i++) {
+    var txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "block";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+  if(filter == "") {
+    for (i = 0; i < a.length; i++) {
+      a[i].style.display = "none";
+    }
+  }
 }
 
 /**

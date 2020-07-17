@@ -41,6 +41,24 @@ func (m *mongoDatabase) Find(args *server.Args, res *server.Result) error {
 	return err
 }
 
+func (m *mongoDatabase) Search(args *server.SearchArgs, res *server.SearchResult) error {
+	limit := int64(5)
+	opts := options.FindOptions{
+		Projection: bson.D{{"name", 1}},
+		Limit:      &limit,
+	}
+	filter := bson.M{"name": bson.M{"$regex": args.Input + "*"}}
+	cursor, err := m.collection.Find(context.TODO(), filter, &opts)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err = cursor.All(context.TODO(), &res.Students); err != nil {
+		log.Fatal(err)
+	}
+	log.Println(&res.Students)
+	return err
+}
+
 func dbConnect() *mongo.Collection {
 	clientOptions := options.Client().ApplyURI("mongodb://mongo:27017")
 	client, err := mongo.Connect(context.TODO(), clientOptions)

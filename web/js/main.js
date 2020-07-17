@@ -42,23 +42,29 @@ function serviceFind(arg) {
  * serviceSearch
  */
 function serviceSearch() {
-  const input = document.getElementById('searchInput');
-  const filter = input.value.toUpperCase();
   const div = document.getElementById('searchDropdown');
   a = div.getElementsByTagName('a');
+
   for (i = 0; i < a.length; i++) {
-    const txtValue = a[i].textContent || a[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+    a[i].style.display = 'none';
+  }
+
+  const input = document.getElementById('searchInput').value;
+  if (input == "") {
+    return;
+  }
+
+  args = {Input: input};
+  msg = {
+    method: 'Service.Search',
+    params: [args],
+  };
+  serviceConn.send(msg, function(response) {
+    for (let i=0; i<response.result.Students.length; i++) {
+      a[i].textContent = response.result.Students[i].Name;
       a[i].style.display = 'block';
-    } else {
-      a[i].style.display = 'none';
     }
-  }
-  if (filter == '') {
-    for (i = 0; i < a.length; i++) {
-      a[i].style.display = 'none';
-    }
-  }
+  });
 }
 
 /**

@@ -12,7 +12,11 @@ func (m *mockDatabase) Find(args *Args, res *Result) error {
 	return nil
 }
 
-func TestDatabaseInsert(t *testing.T) {
+func (m *mockDatabase) Search(*SearchArgs, *SearchResult) error {
+	return nil
+}
+
+func TestFind(t *testing.T) {
 	mockDB := &mockDatabase{}
 
 	service := &Service{mockDB}

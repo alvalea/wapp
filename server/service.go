@@ -20,6 +20,7 @@ type Student struct {
 }
 
 type Args struct {
+	Input    string
 	Page     int
 	PageSize int
 }

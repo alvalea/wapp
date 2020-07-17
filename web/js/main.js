@@ -20,7 +20,8 @@ function serviceFind(arg) {
     enable(document.getElementById('prev'));
   }
 
-  args = {Page: page, PageSize: pageSize};
+  const input = document.getElementById('searchInput');
+  args = {Input: input.value, Page: page, PageSize: pageSize};
   msg = {
     method: 'Service.Find',
     params: [args],
@@ -39,30 +40,51 @@ function serviceFind(arg) {
 }
 
 /**
- * serviceSearch
+ * hideDropdown
  */
-function serviceSearch() {
+function hideDropdown() {
   const div = document.getElementById('searchDropdown');
   a = div.getElementsByTagName('a');
 
   for (i = 0; i < a.length; i++) {
     a[i].style.display = 'none';
   }
+}
 
-  const input = document.getElementById('searchInput').value;
-  if (input == "") {
+/**
+ * serviceSearch
+ */
+function serviceSearch() {
+  const input = document.getElementById('searchInput');
+  if (input.value == '') {
+    hideDropdown();
     return;
   }
 
-  args = {Input: input};
+  if (window.event.key == 'Enter') {
+    hideDropdown();
+    page = 1;
+    serviceFind(0);
+    return;
+  }
+
+  args = {Input: input.value};
   msg = {
     method: 'Service.Search',
     params: [args],
   };
   serviceConn.send(msg, function(response) {
+    hideDropdown();
+
+    const div = document.getElementById('searchDropdown');
+    a = div.getElementsByTagName('a');
     for (let i=0; i<response.result.Students.length; i++) {
       a[i].textContent = response.result.Students[i].Name;
       a[i].style.display = 'block';
+      a[i].addEventListener('click', function(){
+        input.value = a[i].textContent;
+	input.focus();
+      });
     }
   });
 }

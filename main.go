@@ -30,7 +30,8 @@ func (m *mongoDatabase) Find(args *server.Args, res *server.Result) error {
 		Skip:  &skip,
 		Limit: &limit,
 	}
-	cursor, err := m.collection.Find(context.TODO(), bson.M{}, &opts)
+	filter := bson.M{"name": bson.M{"$regex": args.Input + "*"}}
+	cursor, err := m.collection.Find(context.TODO(), filter, &opts)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -55,7 +56,7 @@ func (m *mongoDatabase) Search(args *server.SearchArgs, res *server.SearchResult
 	if err = cursor.All(context.TODO(), &res.Students); err != nil {
 		log.Fatal(err)
 	}
-	log.Println(&res.Students)
+
 	return err
 }
 

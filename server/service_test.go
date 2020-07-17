@@ -21,7 +21,7 @@ func TestFind(t *testing.T) {
 
 	service := &Service{mockDB}
 
-	args := &Args{1, 5}
+	args := &Args{"", 1, 5}
 	res := &Result{}
 
 	err := service.Find(args, res)

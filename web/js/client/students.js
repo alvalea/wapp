@@ -1,6 +1,19 @@
 const students = (function() {
+  let serviceConn = null;
+
   let page = 1;
   const pageSize = 5;
+
+  /**
+   * init
+   * @param {Connection} conn
+   */
+  function init(conn) {
+    serviceConn = conn;
+
+    disable(document.getElementById('students-prev'));
+    disable(document.getElementById('students-next'));
+  }
 
   /**
    * serviceFind
@@ -112,10 +125,8 @@ const students = (function() {
   }
 
   return {
+    init: init,
     serviceFind: serviceFind,
     serviceSearch: serviceSearch,
-    hideDropdown: hideDropdown,
-    disable: disable,
-    enable: enable,
   };
 }());

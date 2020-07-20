@@ -1,6 +1,3 @@
-let service = null;
-let serviceConn = null;
-
 /**
  * openTab
  * @param {event} evt
@@ -32,10 +29,12 @@ function showDefaultTab() {
 
 /**
  * connectToService
+ * @return {Connection} serviceConn
  */
 function connectToService() {
-  service = new WebSocket('ws://localhost:8080/service');
-  serviceConn = new wsrpc.Conn(service);
+  const service = new WebSocket('ws://localhost:8080/service');
+  const serviceConn = new wsrpc.Conn(service);
+  return serviceConn;
 }
 
 /**
@@ -44,8 +43,6 @@ function connectToService() {
 function main() {
   showDefaultTab();
 
-  connectToService();
-
-  students.disable(document.getElementById('students-prev'));
-  students.disable(document.getElementById('students-next'));
+  const serviceConn = connectToService();
+  students.init(serviceConn);
 }

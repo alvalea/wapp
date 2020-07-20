@@ -1,0 +1,26 @@
+{{ define "students" }}
+    <div id="Tab1" class="tabcontent">
+      <h3>Students</h3>
+
+      <div id="students-searchDropdown" class="students-search-content">
+	<input type="text" placeholder="Search..." id="students-searchInput" onkeyup="students.serviceSearch()"/>
+	<a></a>
+	<a></a>
+	<a></a>
+	<a></a>
+	<a></a>
+      </div>
+
+      <div class="students-search-padding"> </div>
+
+      <div id="students-result">
+      </div>
+
+      <div class="students-pagination">
+        <a id="students-prev" onclick="students.serviceFind(-1);">&laquo;</a>
+        <a id="students-next" onclick="students.serviceFind(1);">&raquo;</a>
+      </div>
+
+    </div>
+{{ end }}
+

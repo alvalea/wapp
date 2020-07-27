@@ -1,6 +1,6 @@
 .searchdb
 .tags
 .vimsearchdb
-node_modules/
+node_modules
 package-lock.json
 web/karma/coverage

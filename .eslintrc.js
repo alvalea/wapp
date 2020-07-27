@@ -12,7 +12,7 @@ module.exports = {
   },
   rules: {
     'brace-style': 'off',
-    'camelcase':'off',
-    'no-undef':'off',
+    camelcase: 'off',
+    'no-undef': 'off'
   }
 }

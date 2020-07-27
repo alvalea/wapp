@@ -1,14 +1,19 @@
 {{ define "app" }}
 <!DOCTYPE html>
 <html>
-  {{ template "head" . }}
-  <body onload="main()">
+  <head>
+    <title>Wapp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js" type="module"></script>
+  </head>
+
+  <body>
     <p>Test</p>
     <!-- Tab links -->
     <div class="tab">
-      <button class="tablinks" onclick="openTab(event, 'Tab1')" id="defaultOpen">London</button>
-      <button class="tablinks" onclick="openTab(event, 'Tab2')">Paris</button>
-      <button class="tablinks" onclick="openTab(event, 'Tab3')">Tokyo</button>
+      <button class="tablinks" id="button1">Students</button>
+      <button class="tablinks" id="button2">Paris</button>
+      <button class="tablinks" id="button3">Tokyo</button>
     </div>
 
     {{ template "students" . }}

@@ -1,17 +1,18 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'es2020': true,
+  env: {
+    browser: true,
+    es2020: true
   },
-  'extends': [
-    'google',
+  extends: [
+    'standard'
   ],
-  'parserOptions': {
-    'ecmaVersion': 11,
+  parserOptions: {
+    ecmaVersion: 11,
+    sourceType: 'module'
   },
-  'rules': {
-    'no-unused-vars': 'off',
+  rules: {
     'brace-style': 'off',
-    'guard-for-in': 'off',
-  },
-};
+    'camelcase':'off',
+    'no-undef':'off',
+  }
+}

@@ -19,7 +19,7 @@ module.exports = function(config) {
 
       // list of files / patterns to load in the browser
       files: [
-        '../js/client/*.js'
+        {pattern: '../js/client/*.js', type: 'module'},
       ],
 
       // list of files to exclude

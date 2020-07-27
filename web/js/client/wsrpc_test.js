@@ -1,40 +1,44 @@
+import * as wsrpc from './wsrpc.js'
+
 /**
  * WebSocket Mock
  */
-function MockWS() {
-  this.readyState = 1;
-  this.onmessage = null;
+class MockWS {
+  constructor () {
+    this.readyState = 1
+    this.onmessage = null
+  }
+
+  send (msg) {
+    const s = JSON.parse(msg)
+
+    const ev = {
+      data: JSON.stringify({
+        id: 0,
+        result: JSON.stringify(s.params[0]),
+        error: null
+      })
+    }
+
+    this.onmessage(ev)
+  }
 }
 
-MockWS.prototype.send = function(msg) {
-  const s = JSON.parse(msg);
+describe('Test connection', function () {
+  const mockWS = new MockWS()
+  const conn = new wsrpc.Conn(mockWS)
 
-  const ev = {
-    data: JSON.stringify({
-      id: 0,
-      result: JSON.stringify(s.params[0]),
-      error: null,
-    }),
-  };
-
-  this.onmessage(ev);
-};
-
-describe('Test connection', function() {
-  const mockWS = new MockWS();
-  const conn = new wsrpc.Conn(mockWS);
-
-  args = {Page: 1, PageSize: 5};
-  msg = {
+  const args = { Page: 1, PageSize: 5 }
+  const msg = {
     method: 'Service.Find',
-    params: [args],
-  };
+    params: [args]
+  }
 
-  it('test send', function() {
-    conn.send(msg, function(response) {
-      const result = JSON.parse(response.result);
+  it('test send', function () {
+    conn.send(msg, function (response) {
+      const result = JSON.parse(response.result)
 
-      expect(result.Page).toEqual(args.Page);
-    });
-  });
-});
+      expect(result.Page).toEqual(args.Page)
+    })
+  })
+})

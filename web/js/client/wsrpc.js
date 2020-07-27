@@ -1,48 +1,51 @@
-const wsrpc = (function() {
+/**
+ * WebSocket Connection
+ */
+class Conn {
   /**
-   * Conn
+   * constructor
    * @param {WebSocket} webSocket
    */
-  function Conn(webSocket) {
-    this.id = 0;
-    this.callbacks = {};
+  constructor (webSocket) {
+    this.id = 0
+    this.callbacks = new Map()
 
-    this.ws = webSocket;
-    const self = this;
-    this.ws.onmessage = function(ev) {
-      recvResponse(self, ev.data);
-    };
+    this.ws = webSocket
+    this.ws.onmessage = (ev) => {
+      this.recvResponse(ev.data)
+    }
   }
 
-  Conn.prototype.send = function(msg, cb) {
+  send (msg, cb) {
     // CONNECTING
     if (this.ws.readyState === 0) {
-      setTimeout(function() {
-        this.send(msg, cb);
-      }, 100);
+      setTimeout(function () {
+        this.send(msg, cb)
+      }, 100)
     }
     // OPEN
     else if (this.ws.readyState === 1) {
-      sendRequest(this, msg, cb);
+      this.sendRequest(msg, cb)
     }
-  };
+  }
 
   /**
    * sendRequest
-   * @param {Connection} conn
    * @param {Message} msg
    * @param {Callback} cb
    */
-  function sendRequest(conn, msg, cb) {
-    id = conn.id++;
+  sendRequest (msg, cb) {
+    const id = this.id++
 
-    conn.callbacks[id] = cb;
+    this.callbacks.set(id, cb)
 
-    const request = {};
-    request.id = id;
-    for (const i in msg) request[i] = msg[i];
+    const request = {}
+    request.id = id
+    for (const i in msg) {
+      request[i] = msg[i]
+    }
 
-    conn.ws.send(JSON.stringify(request));
+    this.ws.send(JSON.stringify(request))
   }
 
   /**
@@ -50,15 +53,14 @@ const wsrpc = (function() {
    * @param {Connection} conn
    * @param {Data} data
    */
-  function recvResponse(conn, data) {
-    const response = JSON.parse(data);
-    if (conn.callbacks.hasOwnProperty(response.id)) {
-      conn.callbacks[response.id](response);
-      delete conn.callbacks[response.id];
+  recvResponse (data) {
+    const response = JSON.parse(data)
+    if (this.callbacks.has(response.id)) {
+      const cb = this.callbacks.get(response.id)
+      cb(response)
+      this.callbacks.delete(response.id)
     }
   }
+}
 
-  return {
-    Conn: Conn,
-  };
-}());
+export { Conn }

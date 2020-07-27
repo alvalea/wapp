@@ -1,9 +1,11 @@
 {{ define "students" }}
+    <link rel="stylesheet" href="css/students.css">
+
     <div id="Tab1" class="tabcontent">
       <h3>Students</h3>
 
       <div id="students-searchDropdown" class="students-search-content">
-	<input type="text" placeholder="Search..." id="students-searchInput" onkeyup="students.serviceSearch()"/>
+	<input type="text" placeholder="Search..." id="students-searchInput"/>
 	<a></a>
 	<a></a>
 	<a></a>
@@ -17,8 +19,8 @@
       </div>
 
       <div class="students-pagination">
-        <a id="students-prev" onclick="students.serviceFind(-1);">&laquo;</a>
-        <a id="students-next" onclick="students.serviceFind(1);">&raquo;</a>
+        <a id="students-prev">&laquo;</a>
+        <a id="students-next">&raquo;</a>
       </div>
 
     </div>

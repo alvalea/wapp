@@ -13,6 +13,19 @@ type MongoDatabase struct {
 	collection *mongo.Collection
 }
 
+func (m *MongoDatabase) retrieveStudents(input string, opts *options.FindOptions,
+	result *[]server.Student) error {
+	filter := bson.M{"name": bson.M{"$regex": input + "*"}}
+	cursor, err := m.collection.Find(context.TODO(), filter, opts)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err = cursor.All(context.TODO(), result); err != nil {
+		log.Fatal(err)
+	}
+	return err
+}
+
 func (m *MongoDatabase) Find(args *server.Args, res *server.Result) error {
 	skip := int64(0)
 	if args.Page > 0 {
@@ -24,16 +37,7 @@ func (m *MongoDatabase) Find(args *server.Args, res *server.Result) error {
 		Skip:  &skip,
 		Limit: &limit,
 	}
-	filter := bson.M{"name": bson.M{"$regex": args.Input + "*"}}
-	cursor, err := m.collection.Find(context.TODO(), filter, &opts)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if err = cursor.All(context.TODO(), &res.Students); err != nil {
-		log.Fatal(err)
-	}
-
-	return err
+	return m.retrieveStudents(args.Input, &opts, &res.Students)
 }
 
 func (m *MongoDatabase) Search(args *server.SearchArgs, res *server.SearchResult) error {
@@ -42,16 +46,7 @@ func (m *MongoDatabase) Search(args *server.SearchArgs, res *server.SearchResult
 		Projection: bson.D{{"name", 1}},
 		Limit:      &limit,
 	}
-	filter := bson.M{"name": bson.M{"$regex": args.Input + "*"}}
-	cursor, err := m.collection.Find(context.TODO(), filter, &opts)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if err = cursor.All(context.TODO(), &res.Students); err != nil {
-		log.Fatal(err)
-	}
-
-	return err
+	return m.retrieveStudents(args.Input, &opts, &res.Students)
 }
 
 func NewDB(uri string, db string, col string) (*MongoDatabase, error) {

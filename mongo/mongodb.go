@@ -15,7 +15,7 @@ type MongoDatabase struct {
 
 func (m *MongoDatabase) retrieveStudents(input string, opts *options.FindOptions,
 	result *[]server.Student) error {
-	filter := bson.M{"name": bson.M{"$regex": input + "*"}}
+	filter := bson.M{"name": bson.M{"$regex": input}}
 	cursor, err := m.collection.Find(context.TODO(), filter, opts)
 	if err != nil {
 		log.Fatal(err)

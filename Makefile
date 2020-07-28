@@ -1,6 +1,7 @@
 all:
-	go build
-	./wapp
+	go build -v .
+
+test:	go_test js_test
 
 clean:
 	rm ./wapp

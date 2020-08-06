@@ -1,5 +1,7 @@
 package server
 
+//go:generate mockgen -source=service.go -destination=service_mock.go -package=server
+
 type Database interface {
 	Find(*Args, *Result) error
 	Search(*SearchArgs, *SearchResult) error

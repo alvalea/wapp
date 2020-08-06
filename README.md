@@ -84,3 +84,18 @@ Import sample data
 ```
 mongoimport --drop -c students --uri mongodb://mongo/sample_school students.json
 ```
+
+## gomock ##
+
+Install gomock
+
+```
+go get github.com/golang/mock/gomock
+go get github.com/golang/mock/mockgen
+```
+
+Generate mocks
+
+```
+go generate ./...
+```

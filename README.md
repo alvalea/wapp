@@ -99,3 +99,11 @@ Generate mocks
 ```
 go generate ./...
 ```
+
+## Sinon ##
+
+Install sinon
+
+```
+npm install karma-sinon sinon --save-dev
+```

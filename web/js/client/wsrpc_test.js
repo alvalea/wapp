@@ -4,41 +4,45 @@ import * as wsrpc from './wsrpc.js'
  * WebSocket Mock
  */
 class MockWS {
-  constructor () {
-    this.readyState = 1
-    this.onmessage = null
+  constructor (readyState) {
+    this.readyState = readyState
   }
 
   send (msg) {
-    const s = JSON.parse(msg)
-
-    const ev = {
-      data: JSON.stringify({
-        id: 0,
-        result: JSON.stringify(s.params[0]),
-        error: null
-      })
-    }
-
-    this.onmessage(ev)
+    this.onmessage(msg)
   }
 }
 
-describe('Test connection', function () {
-  const mockWS = new MockWS()
-  const conn = new wsrpc.Conn(mockWS)
+describe('Test WebSocket RPC', function () {
+  afterEach(() => {
+    sinon.restore()
+  })
 
-  const args = { Page: 1, PageSize: 5 }
-  const msg = {
-    method: 'Service.Find',
-    params: [args]
-  }
+  it('test WebSocket not ready', function () {
+    const mockWS = new MockWS(0)
+    const mock = sinon.mock(mockWS)
+    const conn = new wsrpc.Conn(mockWS)
 
-  it('test send', function () {
+    mock.expects('onmessage').never()
+
+    const msg = {}
     conn.send(msg, function (response) {
-      const result = JSON.parse(response.result)
-
-      expect(result.Page).toEqual(args.Page)
     })
+
+    mock.verify()
+  })
+
+  it('test WebSocket ready', function () {
+    const mockWS = new MockWS(1)
+    const mock = sinon.mock(mockWS)
+    const conn = new wsrpc.Conn(mockWS)
+
+    mock.expects('onmessage').once()
+
+    const msg = {}
+    conn.send(msg, function (response) {
+    })
+
+    mock.verify()
   })
 })

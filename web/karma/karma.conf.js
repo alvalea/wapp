@@ -9,13 +9,14 @@ module.exports = function (config) {
     plugins: [
       'karma-firefox-launcher',
       'karma-jasmine',
+      'karma-sinon',
       'karma-coverage',
       'karma-spec-reporter'
     ],
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'sinon'],
 
     // list of files / patterns to load in the browser
     files: [

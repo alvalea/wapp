@@ -23,7 +23,7 @@ jobs:
 
     - name: Install Karma
       run: npm install karma karma-jasmine karma-firefox-launcher karma-coverage
-                       karma-spec-reporter karma-sinon jasmine-core --save-dev
+                       karma-spec-reporter karma-sinon sinon jasmine-core --save-dev
     
     - name: Test
       run: ./node_modules/karma/bin/karma start web/karma/karma.conf.js --browsers FirefoxHeadless --single-run

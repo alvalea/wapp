@@ -1,5 +1,5 @@
 ![Web](https://github.com/alvalea/wapp/workflows/Web/badge.svg)
-![Server](https://github.com/alvalea/wapp/workflows/Server/badge.svg)
+![App](https://github.com/alvalea/wapp/workflows/App/badge.svg)
 [![codecov](https://codecov.io/gh/alvalea/wapp/branch/master/graph/badge.svg)](https://codecov.io/gh/alvalea/wapp)
 [![Go Report Card](https://goreportcard.com/badge/github.com/alvalea/wapp/app)](https://goreportcard.com/report/github.com/alvalea/wapp/app)
 

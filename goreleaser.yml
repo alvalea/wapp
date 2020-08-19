@@ -1,6 +1,9 @@
 # goreleaser.yml
 builds:
-  - main: ./app/main.go
+  - 
     dir: app
+    main: ./main.go
     goos:
       - linux
+      - darwin
+      - windows

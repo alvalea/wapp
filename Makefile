@@ -39,5 +39,11 @@ js_test:
 js_fmt:
 	npx eslint --fix web/js/*
 
-production:
+url:
 	sed -i 's/ws:\/\/localhost:8080\/service/wss:\/\/192.168.140.128\/service/g' ./web/js/main.js
+
+cert:
+	cd nginx; \
+	./create_ssl_cert.sh; \
+	cd ..
+

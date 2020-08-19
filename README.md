@@ -61,6 +61,18 @@ Run docker compose
 sudo docker-compose up
 ```
 
+Clean all containers
+
+```
+sudo docker rm $(sudo docker ps -a -q)
+```
+
+Clean all images
+
+```
+sudo docker rmi $(sudo docker images -q)
+```
+
 ## MongoDB ##
 
 Use mongo as hostname, so that the same code can be run using docker compose

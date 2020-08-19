@@ -1,13 +1,18 @@
 FROM golang:latest
 
-RUN mkdir /app
+RUN mkdir /wapp
 
-ADD . /app/
+COPY ./Makefile /wapp
+COPY ./app /wapp/app
+COPY ./web /wapp/web
+COPY ./nginx /wapp/nginx
 
-WORKDIR /app
+WORKDIR /wapp
 
-RUN go build -o wapp .
+RUN make go_build
 
-CMD ["/app/wapp"]
+RUN make url
+
+CMD ["/wapp/wapp"]
 
 EXPOSE 8080

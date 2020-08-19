@@ -1,5 +1,6 @@
 # goreleaser.yml
 builds:
   - main: ./app/main.go
+    dir: app
     goos:
       - linux

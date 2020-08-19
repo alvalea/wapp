@@ -28,7 +28,7 @@ function openTab (evt, tabName) {
  * @return {Connection} serviceConn
  */
 function connectToService () {
-  const service = new WebSocket('wss://192.168.140.128/service')
+  const service = new WebSocket('ws://localhost:8080/service')
   const serviceConn = new wsrpc.Conn(service)
   return serviceConn
 }

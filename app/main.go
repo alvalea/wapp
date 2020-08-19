@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/alvalea/wapp/mongo"
-	"github.com/alvalea/wapp/server"
+	"github.com/alvalea/wapp/app/mongo"
+	"github.com/alvalea/wapp/app/server"
 	"golang.org/x/net/websocket"
 	"html/template"
 	"log"

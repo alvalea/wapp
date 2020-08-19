@@ -1,4 +1,4 @@
-name: Server
+name: App
 
 on:
   push:
@@ -31,10 +31,10 @@ jobs:
         fi
 
     - name: Build
-      run: go build -v .
+      run: make go_build
 
     - name: Test
-      run: go test -v -coverprofile=coverage.out ./...
+      run: make go_test_coverage
 
     - name: Upload Coverage report to CodeCov
       uses: codecov/codecov-action@v1.0.0

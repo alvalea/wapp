@@ -1,4 +1,4 @@
-module github.com/alvalea/wapp
+module github.com/alvalea/wapp/app
 
 go 1.14
 

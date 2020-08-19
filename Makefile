@@ -1,22 +1,40 @@
-all:
-	go build -v .
+APP_NAME=wapp
+
+all:	go_build
 
 test:	go_test
 
 clean:
-	rm ./wapp
+	rm ./$(APP_NAME)
+
+go_build:
+	cd app; \
+	go build -v .; \
+	mv app ../$(APP_NAME); \
+	cd ..
 
 go_mock:
-	go generate ./...
+	cd app; \
+	go generate ./...; \
+	cd ..
 
 go_test:
-	go test ./... -v
+	cd app; \
+	go test -v ./...; \
+	cd ..
+
+go_test_coverage:
+	cd app; \
+	go test -v -coverprofile=../coverage.out ./...; \
+	cd ..
+
+go_fmt:
+	cd app; \
+	go fmt ./...; \
+	cd ..
 
 js_test:
 	./node_modules/karma/bin/karma start web/karma/karma.conf.js --browsers FirefoxHeadless --single-run
-
-go_fmt:
-	go fmt ./...
 
 js_fmt:
 	npx eslint --fix web/js/*
